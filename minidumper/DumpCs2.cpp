@@ -250,7 +250,7 @@ namespace
 
     void Render(std::ostringstream& os)
     {
-        os << "// Create by minidump\n\n";
+        os << "// Create by minidumper\n\n";
 
         auto* domain = il2cpp_domain_get();
         if (!domain) {

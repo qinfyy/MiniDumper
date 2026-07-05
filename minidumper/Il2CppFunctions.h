@@ -19,6 +19,10 @@ template <typename Return, typename... Args>
 auto InvokeIl2CppApi(const std::string& funcName, Args... args) -> Return
 {
     auto* address = FindIl2CppAddress(funcName);
+    if (!address) {
+        throw std::runtime_error("IL2CPP Function 未绑定: " + funcName);
+    }
+
     auto* fn = reinterpret_cast<Return(*)(Args...)>(address);
 
     if constexpr (std::is_void_v<Return>) {
@@ -48,8 +52,7 @@ public:
 
     [[nodiscard]] void* address() const
     {
-        const auto it = g_il2CppAddresses.find(funcName_);
-        return it == g_il2CppAddresses.end() ? nullptr : it->second;
+        return FindIl2CppAddress(funcName_);
     }
 
     explicit operator bool() const

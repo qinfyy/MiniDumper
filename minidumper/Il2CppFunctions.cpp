@@ -176,7 +176,7 @@ void* FindIl2CppAddress(const std::string& funcName)
 {
     const auto it = g_il2CppAddresses.find(funcName);
     if (it == g_il2CppAddresses.end() || it->second == nullptr) {
-        throw std::runtime_error("IL2CPP API 未绑定: " + funcName);
+        return nullptr;
     }
 
     return it->second;

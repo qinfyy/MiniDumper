@@ -73,7 +73,7 @@ DWORD WINAPI MainThread(LPVOID parameter)
 
         auto* thread = il2cpp_thread_attach(domain);
 
-		DumpCs2(".\\output\\dump.cs2");
+        DumpCs2(".\\output\\dump.cs");
     }
     catch (const std::exception& e) {
         DebugPrintA("[FATAL] 初始化异常: %s\n", e.what());
