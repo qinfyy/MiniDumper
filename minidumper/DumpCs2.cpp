@@ -14,9 +14,12 @@ struct MethodInfo
 {
     const Il2CppClass* klass;
     const void* method_pointer;
-    uint8_t _pad[0x20];
+    uint8_t _pad[0x1A];
     uint16_t flags;
 };
+
+static_assert(offsetof(MethodInfo, method_pointer) == 0x8);
+static_assert(offsetof(MethodInfo, flags) == 0x2A);
 
 namespace
 {
@@ -56,7 +59,7 @@ namespace
         return name;
     }
 
-    std::string GetTypeName(const Il2CppType* type, const char* fallback = "object")
+    std::string GetTypeName(const Il2CppType* type, const char* fallback = "UnknownType")
     {
         if (!type || !il2cpp_type_get_name) {
             return fallback;
