@@ -136,9 +136,12 @@ namespace
 
     std::string GetParamName(const MethodInfo* method, uint32_t index)
     {
-        if (method && il2cpp_method_get_param_name) {
-            const auto* name = il2cpp_method_get_param_name(method, index);
-            if (name && *name) {
+        const auto base = GetGameAssemblyModuleBase();
+        if (method && base) {
+            using MethodGetParamName = const char* (*)(const MethodInfo*, uint32_t);
+            const auto getParamName = reinterpret_cast<MethodGetParamName>(base + 0x3A62D30);
+            const auto* name = getParamName(method, index);
+            if (name && name[0] != '\0') {
                 return name;
             }
         }
