@@ -56,6 +56,7 @@ namespace
         { "il2cpp_method_get_param_count", 866 },
         { "il2cpp_method_get_param", 822 },
         { "il2cpp_type_get_name", 261 },
+        { "il2cpp_method_has_attribute", 364 },
     };
 
     bool IsRequiredIl2CppApi(const char* apiName)
@@ -156,7 +157,9 @@ namespace
             }
 
             decodedApis[binding.name] = reinterpret_cast<void*>(decodedAddress);
-            DebugPrintA("[IL2CPP] case=%04u %-55s -> %p\n", binding.caseIndex, binding.name, reinterpret_cast<void*>(decodedAddress));
+			auto rva = static_cast<uint64_t>(decodedAddress - GetGameAssemblyModuleBase());
+			auto idaVa = rva + 0x180000000;
+            DebugPrintA("[IL2CPP] case=%04u %-38s -> VA: %p, RVA: 0x%llX, IDA VA: 0x%llX\n", binding.caseIndex, binding.name, reinterpret_cast<void*>(decodedAddress), rva, idaVa);
         }
 
         for (const auto& api : failedApis) {
